@@ -26,12 +26,12 @@ public class LogicScript : MonoBehaviour
     public void restartGame()
     {
         Debug.Log("Restarting the game...");
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene("GameScene");
     }
 
-    public void quitGame()
+    public void exitGame()
     {
-        Debug.Log("Quiting the game...");
-        Application.Quit(0);
+        Debug.Log("Going back to the main menu...");
+        SceneManager.LoadScene("MainMenuScene");
     }
 }
