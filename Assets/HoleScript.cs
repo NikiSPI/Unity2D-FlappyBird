@@ -1,27 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public class HoleScript : MonoBehaviour
 {
     public LogicScript logic;
-    // Start is called before the first frame update
+    public GameObject bird;
+
     void Start()
     {
         logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.layer == 3)
+        if (collision.gameObject.layer == bird.layer)
         {
             logic.addScore(1);
         }
     }
+
+
 }
