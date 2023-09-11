@@ -1,14 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
 
 public class BirdScript : MonoBehaviour
 {
     public Rigidbody2D myRigidbody;
-    public AudioSource flapAS;
     public bool birdIsAlive = true;
 
+    public GameObject pipeSpawner;
+    public GameObject cloudSpawner;
+    private Vector2 savedVelocity;
+    public bool gameIsPaused = false;
+
+    public AudioSource flapAS;
     public GameObject wing;
     public GameObject flappedWing;
     public float flapStrength;
@@ -24,10 +28,9 @@ public class BirdScript : MonoBehaviour
         logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && birdIsAlive)
+        if (Input.GetKeyDown(KeyCode.Space) && birdIsAlive && !gameIsPaused)
         {
             myRigidbody.velocity = Vector2.up * flapStrength;
 
@@ -35,6 +38,19 @@ public class BirdScript : MonoBehaviour
             timerAdd = 1;
 
             PlayFlap();
+        }
+        if (Input.GetKeyDown(KeyCode.Escape) && birdIsAlive)
+        {
+            if (!gameIsPaused)
+            {
+                OnPauseGame();
+                gameIsPaused = true;
+            }
+            else
+            {
+                OnResumeGame();
+                gameIsPaused = false;
+            }
         }
 
         flapTimer += Time.deltaTime * timerAdd;
@@ -45,8 +61,31 @@ public class BirdScript : MonoBehaviour
             flapTimer = 0;
         }
 
-        SetRotation();
+        if (!gameIsPaused)
+        {
+            SetRotation();
+        }
 
+    }
+
+    private void OnPauseGame()
+    {
+        pipeSpawner.SetActive(false);
+        cloudSpawner.SetActive(false);
+
+        savedVelocity = myRigidbody.velocity;
+
+        myRigidbody.bodyType = RigidbodyType2D.Static;
+    }
+
+    private void OnResumeGame()
+    {
+        pipeSpawner.SetActive(true);
+        cloudSpawner.SetActive(true);
+
+        myRigidbody.bodyType = RigidbodyType2D.Dynamic;
+
+        myRigidbody.velocity = savedVelocity;
     }
 
     private void SwapWings(bool fw)
@@ -55,14 +94,14 @@ public class BirdScript : MonoBehaviour
         flappedWing.SetActive(!fw);
     }
 
-    private void SetRotation()
-    {
-        transform.rotation = Quaternion.AngleAxis(myRigidbody.velocity.y * rotationStrength, Vector3.forward);
-    }
-
     public void PlayFlap()
     {
         flapAS.Play();
+    }
+   
+    private void SetRotation()
+    {
+        transform.rotation = Quaternion.AngleAxis(myRigidbody.velocity.y * rotationStrength, Vector3.forward);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

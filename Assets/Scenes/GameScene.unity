@@ -210,7 +210,7 @@ GameObject:
   m_Component:
   - component: {fileID: 121912636}
   m_Layer: 5
-  m_Name: Game Over Screen
+  m_Name: Game Over / Pause Screen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1575,6 +1575,22 @@ PrefabInstance:
     - target: {fileID: 909027038792935332, guid: a4a7fba249555794d9f565574c1bc284, type: 3}
       propertyPath: m_Name
       value: Bird
+      objectReference: {fileID: 0}
+    - target: {fileID: 6133283145656866733, guid: a4a7fba249555794d9f565574c1bc284, type: 3}
+      propertyPath: pipeSpawner
+      value: 
+      objectReference: {fileID: 1269502595}
+    - target: {fileID: 6133283145656866733, guid: a4a7fba249555794d9f565574c1bc284, type: 3}
+      propertyPath: cloudSpawner
+      value: 
+      objectReference: {fileID: 1768335803}
+    - target: {fileID: 6133283145656866733, guid: a4a7fba249555794d9f565574c1bc284, type: 3}
+      propertyPath: rotationStrength
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7255354568408166102, guid: a4a7fba249555794d9f565574c1bc284, type: 3}
+      propertyPath: m_BodyType
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9100322688224793774, guid: a4a7fba249555794d9f565574c1bc284, type: 3}
       propertyPath: m_LocalPosition.x

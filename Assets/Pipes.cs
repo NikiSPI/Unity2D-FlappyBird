@@ -18,7 +18,7 @@ public class PipeScript: MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (birdScript.birdIsAlive)
+        if (birdScript.birdIsAlive && !birdScript.gameIsPaused)
         {
             transform.position += (Vector3.left * moveSpeed) * Time.deltaTime;
         }

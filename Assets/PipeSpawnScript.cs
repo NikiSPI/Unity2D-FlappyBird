@@ -28,6 +28,16 @@ public class PipeSpawnScript : MonoBehaviour
             timer = 0;
         }
     }
+
+    public void OnPause()
+    {
+        enabled = false;
+    }
+    public void OnResume()
+    {
+        enabled = true;
+    }
+
     private void SpawnPipe()
     {
         float lowestPoint = transform.position.y - YOffset;
