@@ -13,7 +13,7 @@ public class HoleScript : MonoBehaviour
         logic = GameObject.FindGameObjectWithTag("Logic").GetComponent<LogicScript>();
     }
 
-    
+  
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

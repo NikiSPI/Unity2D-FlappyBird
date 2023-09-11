@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
-using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
+using System.IO;
 
 public class LogicScript : MonoBehaviour
 {
@@ -16,12 +16,24 @@ public class LogicScript : MonoBehaviour
     public int advanceOnPipeNum = 5;
     private int counter = 0;
 
+    private StreamReader highScoreFileReader = new StreamReader("Assets\\unitytut-HighScore.txt");
+    private int highScore;
+    bool newHighScore = false;
 
-    [ContextMenu("Increase Score")]
+    private void Start()
+    {
+        highScore = Convert.ToInt32(highScoreFileReader.ReadLine());
+    }
+
     public void addScore(int addScore)
     {
         playerScore += addScore;
         scoreText.text = playerScore.ToString();
+
+        if(playerScore > highScore && !newHighScore)
+        {
+            newHighScore = true;
+        }
 
         PerformSoundCount();
         
@@ -30,7 +42,7 @@ public class LogicScript : MonoBehaviour
     private void PerformSoundCount()
     {
         counter++;
-        if (counter >= advanceOnPipeNum)
+        if (counter == advanceOnPipeNum)
         {
             PlayAdvance();
             Debug.Log("You Advanced "+ advanceOnPipeNum +" More Levels");
@@ -47,7 +59,24 @@ public class LogicScript : MonoBehaviour
 
     public void gameOver()
     {
+        if (newHighScore)
+        {
+            highScore = playerScore;
+            saveHighScore(highScore);
+        }
+
         gameOverScreen.SetActive(true);
+    }
+
+    private void saveHighScore(int intToSave)
+    {
+        highScoreFileReader.Dispose();
+
+        StreamWriter highScoreFileWriter = new StreamWriter("Assets\\unitytut-HighScore.txt", false);
+        highScoreFileWriter.WriteLine(intToSave);
+        highScoreFileWriter.Dispose();
+
+        Debug.Log("Successfully saved a new High Score: " + intToSave);
     }
 
     public void restartGame()
