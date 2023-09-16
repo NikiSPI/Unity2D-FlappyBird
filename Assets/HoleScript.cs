@@ -19,7 +19,7 @@ public class HoleScript : MonoBehaviour
     {
         if (collision.gameObject.layer == bird.layer)
         {
-            logic.addScore(1);
+            logic.AddScore(1);
         }
     }
 

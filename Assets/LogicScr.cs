@@ -10,7 +10,8 @@ public class LogicScript : MonoBehaviour
 {
     public int playerScore;
     public Text scoreText;
-    public GameObject gameOverScreen;
+    public GameObject pauseMenu;
+    public GameObject gameOverMenu;
 
     public AudioSource advanceAS;
     public int advanceOnPipeNum = 5;
@@ -25,21 +26,21 @@ public class LogicScript : MonoBehaviour
         highScore = Convert.ToInt32(highScoreFileReader.ReadLine());
     }
 
-    public void addScore(int addScore)
+    public void AddScore(int addScore)
     {
         playerScore += addScore;
         scoreText.text = playerScore.ToString();
 
-        if(playerScore > highScore && !newHighScore)
+        if(playerScore == highScore + 1)
         {
             newHighScore = true;
         }
 
-        PerformSoundCount();
+        PerformAdvanceCount();
         
     }
 
-    private void PerformSoundCount()
+    private void PerformAdvanceCount()
     {
         counter++;
         if (counter == advanceOnPipeNum)
@@ -57,26 +58,36 @@ public class LogicScript : MonoBehaviour
     }
 
 
+    public void gamePause(bool isGamePaused)
+    {
+        pauseMenu.SetActive(isGamePaused);
+    }
+
     public void gameOver()
+    {
+        CheckForHighScore();
+
+        gameOverMenu.SetActive(true);
+    }
+
+    public void CheckForHighScore()
     {
         if (newHighScore)
         {
             highScore = playerScore;
-            saveHighScore(highScore);
+            saveHighScore();
         }
-
-        gameOverScreen.SetActive(true);
     }
 
-    private void saveHighScore(int intToSave)
+    private void saveHighScore() 
     {
         highScoreFileReader.Dispose();
 
         StreamWriter highScoreFileWriter = new StreamWriter("Assets\\unitytut-HighScore.txt", false);
-        highScoreFileWriter.WriteLine(intToSave);
+        highScoreFileWriter.WriteLine(highScore);
         highScoreFileWriter.Dispose();
 
-        Debug.Log("Successfully saved a new High Score: " + intToSave);
+        Debug.Log("Successfully saved a new High Score: " + highScore);
     }
 
     public void restartGame()

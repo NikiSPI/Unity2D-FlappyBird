@@ -18,7 +18,7 @@ public class BirdScript : MonoBehaviour
     public float flapStrength;
     public float flapDuration;
     private float flapTimer = 0;
-    private float timerAdd = 0;
+    private float flapTimerAdd = 0;
     public float rotationStrength;
 
     public LogicScript logic;
@@ -35,7 +35,7 @@ public class BirdScript : MonoBehaviour
             myRigidbody.velocity = Vector2.up * flapStrength;
 
             SwapWings(false);
-            timerAdd = 1;
+            flapTimerAdd = 1;
 
             PlayFlap();
         }
@@ -49,15 +49,14 @@ public class BirdScript : MonoBehaviour
             else
             {
                 OnResumeGame();
-                gameIsPaused = false;
             }
         }
 
-        flapTimer += Time.deltaTime * timerAdd;
+        flapTimer += Time.deltaTime * flapTimerAdd;
         if (flapTimer >= flapDuration)
         {
             SwapWings(true);
-            timerAdd = 0;
+            flapTimerAdd = 0;
             flapTimer = 0;
         }
 
@@ -68,22 +67,29 @@ public class BirdScript : MonoBehaviour
 
     }
 
-    private void OnPauseGame()
+    public void OnPauseGame()
     {
         pipeSpawner.SetActive(false);
         cloudSpawner.SetActive(false);
 
         savedVelocity = myRigidbody.velocity;
 
-        myRigidbody.bodyType = RigidbodyType2D.Static;
+        myRigidbody.velocity = new Vector2(0, 0);
+        myRigidbody.bodyType = RigidbodyType2D.Kinematic;
+
+        logic.gamePause(true);
     }
 
-    private void OnResumeGame()
+    public void OnResumeGame()
     {
+        logic.gamePause(false);
+
         pipeSpawner.SetActive(true);
         cloudSpawner.SetActive(true);
 
         myRigidbody.bodyType = RigidbodyType2D.Dynamic;
+
+        gameIsPaused = false;
 
         myRigidbody.velocity = savedVelocity;
     }
