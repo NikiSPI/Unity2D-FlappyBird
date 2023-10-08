@@ -13,7 +13,6 @@ public class CloudScript : MonoBehaviour
         birdScript = GameObject.FindGameObjectWithTag("Player").GetComponent<BirdScript>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (birdScript.birdIsAlive && !birdScript.gameIsPaused)

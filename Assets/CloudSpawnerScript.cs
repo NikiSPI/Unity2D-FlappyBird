@@ -11,12 +11,11 @@ public class CloudSpawnerScript : MonoBehaviour
 
     private int randomYPoint;
     public float YOffset = 20;
-    public float cloudDist = 2;
+    public float cloudYDist = 2;
 
     public float deadZone = -40;
     public float cloudMoveSpeed = 3.5f;
 
-    // Start is called before the first frame update
     void Start()
     {
         float defaultXDist = spawnRate * cloudMoveSpeed;
@@ -28,15 +27,12 @@ public class CloudSpawnerScript : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (timer < spawnRate)
-        {
-            timer += Time.deltaTime;
-        }
-        else
-        {
+        timer += Time.deltaTime;
+    
+        if (timer >= spawnRate)
+        { 
             SpawnCloud(transform.position.x);
             timer = 0;
         }
@@ -51,7 +47,7 @@ public class CloudSpawnerScript : MonoBehaviour
         { 
             tempRand = (int)Random.Range(lowestPoint, highestPoint); 
         }
-        while (tempRand >= randomYPoint - cloudDist && tempRand <= randomYPoint + cloudDist);
+        while (tempRand >= randomYPoint - cloudYDist && tempRand <= randomYPoint + cloudYDist);
 
         randomYPoint = tempRand;
 

@@ -9,15 +9,18 @@ public class PipeSpawnScript : MonoBehaviour
     private float timer = 0;
     public float YOffset = 10;
 
-    // Start is called before the first frame update
+    public float speedUpClock, speedUpAmount;
+    private float speedUpTimer = 0;
+
     void Start()
     {
         timer = spawnRate;
     }
 
-    // Update is called once per frame
     void Update()
     {
+        SpeedUpCheck();
+
         if (timer < spawnRate)
         {
             timer += Time.deltaTime;
@@ -26,6 +29,18 @@ public class PipeSpawnScript : MonoBehaviour
         {
             SpawnPipe();
             timer = 0;
+        }
+    }
+
+    private void SpeedUpCheck()
+    {
+        speedUpTimer += Time.deltaTime;
+
+        if (speedUpTimer >= speedUpClock)
+        {
+            speedUpTimer = 0;
+
+            spawnRate -= speedUpAmount * spawnRate;
         }
     }
 

@@ -7,6 +7,10 @@ public class BirdScript : MonoBehaviour
     public Rigidbody2D myRigidbody;
     public bool birdIsAlive = true;
 
+    public float movingSpeed;
+    public float speedUpClock, speedUpAmount;
+    private float speedUpTimer = 0;
+
     public GameObject pipeSpawner;
     public GameObject cloudSpawner;
     private Vector2 savedVelocity;
@@ -30,6 +34,8 @@ public class BirdScript : MonoBehaviour
 
     void Update()
     {
+        SpeedUpCheck();
+
         if (Input.GetKeyDown(KeyCode.Space) && birdIsAlive && !gameIsPaused)
         {
             myRigidbody.velocity = Vector2.up * flapStrength;
@@ -65,6 +71,18 @@ public class BirdScript : MonoBehaviour
             SetRotation();
         }
 
+    }
+
+    private void SpeedUpCheck()
+    {
+        speedUpTimer += Time.deltaTime;
+
+        if(speedUpTimer >= speedUpClock)
+        {
+            speedUpTimer = 0;
+
+            movingSpeed += speedUpAmount;
+        }
     }
 
     public void OnPauseGame()

@@ -10,8 +10,10 @@ public class LogicScript : MonoBehaviour
 {
     public int playerScore;
     public Text scoreText;
+    public Text instructionsText;
     public GameObject pauseMenu;
     public GameObject gameOverMenu;
+    public GameObject HighScorePanel;
 
     public AudioSource advanceAS;
     public int advanceOnPipeNum = 5;
@@ -67,7 +69,10 @@ public class LogicScript : MonoBehaviour
     {
         CheckForHighScore();
 
+        instructionsText.enabled = false;
+
         gameOverMenu.SetActive(true);
+        HighScorePanel.SetActive(true);
     }
 
     public void CheckForHighScore()
