@@ -9,6 +9,7 @@ using Unity.VisualScripting;
 
 public class InstructionScript : MonoBehaviour
 {
+    public GameObject instrScr;
     public Text instructionsTextBox;
     public string[] instructions;
     private int currentInstruction = 0;
@@ -16,7 +17,9 @@ public class InstructionScript : MonoBehaviour
     public float displayTime, fadeTime, waitTime;
     private float timer = 0;
     private bool instructionsSwitching = true, fadeInRunning = false, textStill = false, fadeOutRunning = false;
-    Color dfltFontColor, nullColor;
+    private Color dfltFontColor, nullColor;
+
+    public GameObject PauseMenuForCheck;
 
 
     void Start()
@@ -26,13 +29,16 @@ public class InstructionScript : MonoBehaviour
     void Update()
     {
 
-        if (instructionsSwitching)
+        if (PauseMenuForCheck.active == true) { }
+
+        else if (instructionsSwitching)
         {
-            if(timer == 0)
+            if (timer == 0)
             {
-                if(currentInstruction >= instructions.Length)
+                if (currentInstruction >= instructions.Length)
                 {
-                    instructionsSwitching = false;
+                    Debug.Log("Instructions end");
+                    instrScr.SetActive(false);
                 }
                 else
                 {
@@ -40,10 +46,10 @@ public class InstructionScript : MonoBehaviour
 
                     instructionsTextBox.text = instructions[currentInstruction];
                     currentInstruction++;
-                }                
+                }
             }
 
-            if(timer < waitTime)
+            if (timer < waitTime)
             {
                 timer += Time.deltaTime;
             }
@@ -53,8 +59,8 @@ public class InstructionScript : MonoBehaviour
             }
         }
 
-        if (textStill) 
-        { 
+        else if (textStill)
+        {
             if (timer < displayTime)
             {
                 timer += Time.deltaTime;
@@ -63,11 +69,11 @@ public class InstructionScript : MonoBehaviour
             {
                 PeriodEnd(false, false, true);
             }
-        }        
+        }
 
         else if (fadeInRunning)
         {
-            if(timer < fadeTime)
+            if (timer < fadeTime)
             {
                 timer += Time.deltaTime;
                 PerformFade(1 - timer / fadeTime);
@@ -77,11 +83,11 @@ public class InstructionScript : MonoBehaviour
                 PeriodEnd(false, true);
             }
 
-        }        
+        }
 
         else if (fadeOutRunning)
         {
-            if(timer < fadeTime)
+            if (timer < fadeTime)
             {
                 timer += Time.deltaTime;
                 PerformFade(timer / fadeTime);
@@ -92,7 +98,7 @@ public class InstructionScript : MonoBehaviour
             }
         }
         
-        }
+    }
     private void PerformFade(float levelOfTransparency)
     {
         instructionsTextBox.color = Color.Lerp(dfltFontColor, nullColor, levelOfTransparency);

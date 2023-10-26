@@ -1,18 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class HighScoreScript : MonoBehaviour
+public class HghScoreScript : MonoBehaviour
 {
     public Text highScoreText;
-    private StreamReader sr = new StreamReader("Assets\\unitytut-HighScore.txt");
-    void Start()
+
+    private void Start()
     {
+        StreamReader sr = new StreamReader("Assets\\unitytut-HighScore.txt");
         highScoreText.text = sr.ReadLine();
         sr.Dispose();
     }
+
     void Update()
     {
         

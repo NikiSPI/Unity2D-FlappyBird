@@ -10,22 +10,24 @@ public class LogicScript : MonoBehaviour
 {
     public int playerScore;
     public Text scoreText;
-    public Text instructionsText;
+    public GameObject instructions;
     public GameObject pauseMenu;
     public GameObject gameOverMenu;
     public GameObject HighScorePanel;
+    public Text highScoreText;
 
     public AudioSource advanceAS;
     public int advanceOnPipeNum = 5;
     private int counter = 0;
 
-    private StreamReader highScoreFileReader = new StreamReader("Assets\\unitytut-HighScore.txt");
     private int highScore;
     bool newHighScore = false;
 
     private void Start()
     {
+        StreamReader highScoreFileReader = new StreamReader("Assets\\unitytut-HighScore.txt");
         highScore = Convert.ToInt32(highScoreFileReader.ReadLine());
+        highScoreFileReader.Dispose();
     }
 
     public void AddScore(int addScore)
@@ -60,20 +62,20 @@ public class LogicScript : MonoBehaviour
     }
 
 
-    public void gamePause(bool isGamePaused)
+    public void GamePause(bool isGamePaused)
     {
         pauseMenu.SetActive(isGamePaused);
     }
 
-    public void gameOver()
+    public void GameOver()
     {
         CheckForHighScore();
 
-        instructionsText.enabled = false;
-
+        instructions.SetActive(false);
         gameOverMenu.SetActive(true);
         HighScorePanel.SetActive(true);
     }
+    
 
     public void CheckForHighScore()
     {
@@ -86,9 +88,7 @@ public class LogicScript : MonoBehaviour
 
     private void saveHighScore() 
     {
-        highScoreFileReader.Dispose();
-
-        StreamWriter highScoreFileWriter = new StreamWriter("Assets\\unitytut-HighScore.txt", false);
+        StreamWriter highScoreFileWriter = new StreamWriter("Assets\\unitytut-highScore.txt", false);
         highScoreFileWriter.WriteLine(highScore);
         highScoreFileWriter.Dispose();
 

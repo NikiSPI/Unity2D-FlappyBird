@@ -95,12 +95,12 @@ public class BirdScript : MonoBehaviour
         myRigidbody.velocity = new Vector2(0, 0);
         myRigidbody.bodyType = RigidbodyType2D.Kinematic;
 
-        logic.gamePause(true);
+        logic.GamePause(true);
     }
 
     public void OnResumeGame()
     {
-        logic.gamePause(false);
+        logic.GamePause(false);
 
         pipeSpawner.SetActive(true);
         cloudSpawner.SetActive(true);
@@ -132,7 +132,7 @@ public class BirdScript : MonoBehaviour
     {
         if (birdIsAlive)
         {
-            logic.gameOver();
+            logic.GameOver();
             birdIsAlive = false;
         }
     }
